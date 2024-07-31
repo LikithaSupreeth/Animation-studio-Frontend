@@ -38,11 +38,14 @@ export const AuthProvider = ({ children }) => {
     // const handleLogout = () => {
     //     setUser(null) 
     // }
-
+    const isAdmin = () => {
+        return user.profile && user.profile.role === 'Admin';
+    }
     return (
         // <AuthContext.Provider value={{ user, handleLogin, handleLogout}}>
-        <AuthContext.Provider value={{ user, dispatch}}>
+        <AuthContext.Provider value={{ user, dispatch, isAdmin}}>
             { children }
         </AuthContext.Provider>
     )
 }
+

@@ -1,0 +1,15 @@
+.homepage-background {
+    /* background-image: url('/images/home-page-background.gif'); */
+    background-image: url('/Users/supreethbs/Desktop/Animation Studio/Frontend/animation-studio-frontend/public/images/home-page-backgroud.gif');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.homepage-text {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
