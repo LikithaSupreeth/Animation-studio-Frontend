@@ -1,17 +1,18 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import AdminPage from './pages/AdminPage'
-// import ClientPage from './pages/ClientPage';
+// import ClientPage from './pages/ClientPage'
 import HomePage from './pages/HomePage';
 import Login from './components/Auth/Login';
 // import PaymentPage from './pages/PaymentPage';
-// import ProjectPage from './pages/ProjectPage';
+import ProjectPage from './pages/ProjectPage';
 import React from 'react';
 import RegisterClient from './components/Auth/RegisterClient';
 import RegisterUser from './components/Auth/RegisterUser';
 
-// import TaskPage from './pages/TaskPage';
-// import UserProfilePage from './pages/UserProfilePage';
+// import TaskPage from './pages/TaskPage'
+
+// import UserProfilePage from './pages/UserProfilePage'
 
 const AppRoutes = () => {
     return (
@@ -23,11 +24,13 @@ const AppRoutes = () => {
                  
                  <Route path="/admin" element={<AdminPage />} />
                 <Route path="/admin/register-user" element={<RegisterUser />} />  
-                {/* <Route path="/projects" element={<ProjectPage/>} />
-                <Route path="/tasks" element={<TaskPage/>} />
+                <Route path="/admin/projects/*" element={<ProjectPage />} />
+
+                {/* <Route path="/projects" element={<ProjectPage/>} /> */}
+                {/* <Route path="/tasks" element={<TaskPage/>} />
                 <Route path="/clients" element={<ClientPage/>} />
-                <Route path="/payments" element={<PaymentPage/>} />
-                <Route path="/profile" element={<UserProfilePage/>} />*/}
+                <Route path="/payments" element={<PaymentPage/>} /> */}
+                {/* <Route path="/profile" element={<UserProfilePage/>} /> */}
               
              </Routes> 
         </Router>
