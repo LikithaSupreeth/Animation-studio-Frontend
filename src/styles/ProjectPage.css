@@ -1,0 +1,106 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('/Users/supreethbs/Desktop/Animation Studio/Frontend/animation-studio-frontend/public/images/project-page-backgroud.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Title styling */
+h2 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Button styling */
+.btn-primary {
+    display: block;
+    width: 80%;
+    margin: 0 auto 20px auto;
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Project list styling */
+.list-group {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list-group-item {
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.list-group-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.list-group-item a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    .btn-primary {
+        font-size: 1rem;
+        padding: 8px;
+    }
+
+    .list-group-item {
+        padding: 10px;
+    }
+
+    .list-group-item a {
+        font-size: 1rem;
+    }
+}
+
+
+
