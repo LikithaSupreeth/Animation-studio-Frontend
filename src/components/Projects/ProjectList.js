@@ -12,7 +12,7 @@ const ProjectList = () => {
         const fetchProjects = async () => {
             try {
                 const token = localStorage.getItem('token');
-                console.log('Authorization Token:', token);
+                // console.log('Authorization Token:', token);
 
                 const response = await axios.get('/project/getallprojects', {
                     headers: { Authorization: `Bearer ${token}` }

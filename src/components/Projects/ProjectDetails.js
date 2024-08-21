@@ -36,7 +36,7 @@ const ProjectDetail = () => {
     }
 
     return (
-        <div className="container mt-4">
+        <div className="container mt-8">
             <h2>{project.name}</h2>
             <p>{project.description}</p>
             <p><strong>Deadline:</strong> {new Date(project.deadline).toLocaleDateString()}</p>

@@ -2,6 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { notifyError, notifySuccess } from '../../utils/notifications';
 
+import Select from 'react-select';
 import axios from '../../config/axios';
 
 const CreateProject = () => {
@@ -10,27 +11,46 @@ const CreateProject = () => {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+
         const fetchClients = async () => {
             try {
-                const response = await axios.get('/client/getAllclients');
+                const response = await axios.get('/client/getAllClients',{
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+              
                 setClients(response.data);
             } catch (error) {
+                console.error('Failed to fetch clients', error.response.data);
                 notifyError('Failed to fetch clients');
             }
         };
 
         const fetchTeamMembers = async () => {
             try {
-                const response = await axios.get('/project/getUsersByRole?roles=Animator,Project Manager');
+                const token = localStorage.getItem('token');
+                console.log('Token:', token);
+                const response = await axios.get('/users/getUserByRole', {
+                    headers: { Authorization: `Bearer ${token}` },
+                    params: {
+                        roles: 'Animator,Project Manager',
+                    }
+                });                
+                console.log('Team Members:', response.data);
                 setTeamMembers(response.data);
             } catch (error) {
+                console.log('team members error',error)
                 notifyError('Failed to fetch team members');
             }
         };
 
         const fetchTasks = async () => {
             try {
-                const response = await axios.get('/task/getalltasks');
+                const response = await axios.get('/task/getalltasks', {
+                    headers: { Authorization: `Bearer ${token}` }   
+                })
+                console.log('Tasks:', response.data);
+
                 setTasks(response.data);
             } catch (error) {
                 notifyError('Failed to fetch tasks');
@@ -43,11 +63,18 @@ const CreateProject = () => {
     }, []);
 
     const handleSubmit = async (values, { setSubmitting }) => {
+        console.log('Submitting values:', values);
+        const token = localStorage.getItem('token');
         try {
-            await axios.post('/project/create', values);
-            notifySuccess('Project created successfully');
+            const response = await axios.post('/project/create', values, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            console.log('Project creation response:', response);
+            notifySuccess('Project created successfully');  
         } catch (error) {
-            notifyError('Failed to create project');
+            const errorMessage = error.response?.data || error.message || 'Unknown error occurred';
+            console.error('Error creating project:',errorMessage); 
+            notifyError('Failed to create project'+ errorMessage);
         }
         setSubmitting(false);
     };
@@ -60,7 +87,7 @@ const CreateProject = () => {
                     name: '', 
                     description: '', 
                     deadline: '', 
-                    status: '', 
+                    status: 'Planned', 
                     assignedTeamMembers: [], 
                     tasks: [], 
                     client: '' 
@@ -100,45 +127,37 @@ const CreateProject = () => {
 
                         <div className="form-group">
                             <label htmlFor="assignedTeamMembers">Assigned Team Members</label>
-                            <Field as="select" name="assignedTeamMembers" multiple className="form-control" onChange={e => {
-                                const options = e.target.options;
-                                const values = [];
-                                for (let i = 0, l = options.length; i < l; i++) {
-                                    if (options[i].selected) {
-                                        values.push(options[i].value);
-                                    }
-                                }
-                                setFieldValue("assignedTeamMembers", values);
-                            }}>
-                                <option value="">Select team members</option>
-                                {teamMembers.map(member => (
-                                    <option key={member._id} value={member._id}>
-                                        {member.name}
-                                    </option>
-                                ))}
-                            </Field>
+                            <Select
+                                isMulti
+                                name="assignedTeamMembers"
+                                options={teamMembers.map(member => ({
+                                    value: member._id,
+                                    label: member.name
+                                }))}
+                                className="basic-multi-select"
+                                classNamePrefix="select Team Members"
+                                onChange={selectedOptions => {
+                                    setFieldValue('assignedTeamMembers', selectedOptions.map(option => option.value));
+                                }}
+                            />
                             <ErrorMessage name="assignedTeamMembers" component="div" className="text-danger" />
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="tasks">Tasks</label>
-                            <Field as="select" name="tasks" multiple className="form-control" onChange={e => {
-                                const options = e.target.options;
-                                const values = [];
-                                for (let i = 0, l = options.length; i < l; i++) {
-                                    if (options[i].selected) {
-                                        values.push(options[i].value);
-                                    }
-                                }
-                                setFieldValue("tasks", values);
-                            }}>
-                                <option value="">Select tasks</option>
-                                {tasks.map(task => (
-                                    <option key={task._id} value={task._id}>
-                                        {task.title}
-                                    </option>
-                                ))}
-                            </Field>
+                            <Select
+                                isMulti
+                                name="tasks"
+                                options={tasks.map(task => ({
+                                    value: task._id,
+                                    label: task.name
+                                }))}
+                                className="basic-multi-select"
+                                classNamePrefix="select"
+                                onChange={selectedOptions => {
+                                    setFieldValue('tasks', selectedOptions.map(option => option.value));
+                                }}
+                            />
                             <ErrorMessage name="tasks" component="div" className="text-danger" />
                         </div>
 
