@@ -1,7 +1,7 @@
 import '../styles/AdminPage.css'
 
 import { Link, useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import axios from '../config/axios'
 import { useAuth } from '../context/AuthContext';
@@ -9,9 +9,7 @@ import { useAuth } from '../context/AuthContext';
 const AdminPage = () => {
     const { user, isAdmin } = useAuth();
     const navigate = useNavigate();
-    // const [projectUpdates, setProjectUpdates] = useState([]);
-    // const [newTasks, setNewTasks] = useState([]);
-    // const [clientFeedback, setClientFeedback] = useState([]);
+    
 
     useEffect(() => {
         if (!isAdmin()) {
@@ -38,10 +36,6 @@ const AdminPage = () => {
                     headers: { Authorization: `Bearer ${token}` }
                 })
             ]);
-
-            // setProjectUpdates(projectsRes.data.projects);
-            // setNewTasks(tasksRes.data.tasks);
-            // setClientFeedback(feedbackRes.data.feedback);
         } catch (error) {
             console.error('Failed to fetch dashboard data', error);
         }
@@ -59,11 +53,11 @@ const AdminPage = () => {
                     <Link to="/admin/payments" >Payments</Link>
             </div>
 
-            <div className="sub-navbar mb-4 ">
+            {/* <div className="sub-navbar mb-4 ">
                 <Link to="/admin/add-project" >Add Projects</Link>
                 <Link to="/admin/add-task" >Add Tasks</Link>
                 <Link to="/admin/add-client" >Add Client</Link>
-            </div>
+            </div> */}
         </div>
     );
 };

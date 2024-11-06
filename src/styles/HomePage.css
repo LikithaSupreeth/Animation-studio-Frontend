@@ -1,8 +1,7 @@
 .homepage-background {
-    /* background-image: url('/images/home-page-background.gif'); */
     background-image: url('/Users/supreethbs/Desktop/Animation Studio/Frontend/animation-studio-frontend/public/images/home-page-backgroud.gif');
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     height: 100vh;
     display: flex;
     justify-content: center;

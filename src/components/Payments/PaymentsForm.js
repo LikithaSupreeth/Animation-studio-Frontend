@@ -2,27 +2,40 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { notifyError, notifySuccess } from '../../utils/notifications';
 
-import api from '../../utils/api';
-import { paymentValidationSchema } from '../../utils/validations';
+import axios from '../../config/axios'
 
 const PaymentForm = () => {
     const [clients, setClients] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const response = await api.get('/clients/getallclients');
-                setClients(response.data);
+                const token = localStorage.getItem('token');
+                const response = await axios.get('/clients/getallclients', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                if (response.data && response.data.length > 0) {
+                    setClients(response.data);
+                } else {
+                    setError('No projects found.');
+                }            
             } catch (error) {
                 notifyError('Failed to fetch clients');
+                setError('Failed to fetch clients');
+
             }
         };
         fetchClients();
     }, []);
 
     const handleSubmit = async (values, { setSubmitting }) => {
+        const token = localStorage.getItem('token');
+
         try {
-            await api.post('/payment/create', values);
+            await axios.post('/payment/create', values, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             notifySuccess('Payment created successfully');
         } catch (error) {
             notifyError('Failed to create payment');
@@ -35,7 +48,6 @@ const PaymentForm = () => {
             <h2>Create Payment</h2>
             <Formik
                 initialValues={{ amount: '', description: '', clientId: '' }}
-                validationSchema={paymentValidationSchema}
                 onSubmit={handleSubmit}
             >
                 {({ isSubmitting }) => (

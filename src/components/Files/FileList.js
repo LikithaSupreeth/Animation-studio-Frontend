@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import api from '../../utils/api';
+import axios from '../../config/axios'
 import { notifyError } from '../../utils/notifications';
 
 const FileList = () => {
@@ -9,7 +9,7 @@ const FileList = () => {
     useEffect(() => {
         const fetchFiles = async () => {
             try {
-                const response = await api.get('/file/getallfiles');
+                const response = await axios.get('/file/getallfiles');
                 setFiles(response.data);
             } catch (error) {
                 notifyError('Failed to fetch files');

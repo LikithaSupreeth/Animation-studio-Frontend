@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import api from '../../utils/api';
+import axios from '../../config/axios'
 import { notifyError } from '../../utils/notifications';
 import { useParams } from 'react-router-dom';
 
@@ -11,10 +11,20 @@ const TaskDetail = () => {
     useEffect(() => {
         const fetchTask = async () => {
             try {
-                const response = await api.get(`/task/gettaskbyid/${id}`);
-                setTask(response.data);
+                const token = localStorage.getItem('token');
+                console.log("Authorization Token:", token);
+
+                const response = await axios.get(`/task/gettaskbyid/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                if (response.data) {
+                    setTask(response.data);
+                } else {
+                    notifyError('No tasks details found');
+                }            
             } catch (error) {
-                notifyError('Failed to fetch task details');
+                notifyError('Failed to fetch tasks details');
+                console.error("Error fetching project details:", error);
             }
         };
         fetchTask();
@@ -36,3 +46,5 @@ const TaskDetail = () => {
 };
 
 export default TaskDetail;
+
+

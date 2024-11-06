@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { notifyError, notifySuccess } from '../../utils/notifications';
 
-import api from '../../utils/api';
+import axios from '../../config/axios'
 import { useAuth } from '../../context/AuthContext';
 import { userUpdateValidations } from '../../utils/validations';
 
@@ -13,7 +13,7 @@ const EditProfile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.get('/users/getuser', {
+                const response = await axios.get('/users/getuser', {
                     headers: { Authorization: `Bearer ${user.account.token}` }
                 });
                 setProfile(response.data);
@@ -26,7 +26,7 @@ const EditProfile = () => {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
-            const response = await api.put('/users/update', values, {
+            const response = await axios.put('/users/update', values, {
                 headers: { Authorization: `Bearer ${user.account.token}` }
             });
             dispatch({ type: 'SET_PROFILE', payload: response.data });

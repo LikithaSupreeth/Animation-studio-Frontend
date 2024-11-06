@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import api from '../../utils/api';
+import axios from '../../config/axios'
 import { notifyError } from '../../utils/notifications';
 import { useAuth } from '../../context/AuthContext';
 
@@ -11,7 +11,7 @@ const UserProfile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await api.get('/users/getuser', {
+                const response = await axios.get('/users/getuser', {
                     headers: { Authorization: `Bearer ${user.account.token}` }
                 });
                 setProfile(response.data);

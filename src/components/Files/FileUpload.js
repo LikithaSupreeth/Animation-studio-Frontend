@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { notifyError, notifySuccess } from '../../utils/notifications';
 
 import React from 'react';
-import api from '../../utils/api';
+import axios from '../../config/axios'
 import { fileValidationSchema } from '../../utils/validations';
 
 const FileUpload = () => {
@@ -12,7 +12,7 @@ const FileUpload = () => {
         formData.append('description', values.description);
 
         try {
-            await api.post('/file/create', formData, {
+            await axios.post('/file/create', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             notifySuccess('File uploaded successfully');

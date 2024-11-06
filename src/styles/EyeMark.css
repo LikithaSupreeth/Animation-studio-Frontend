@@ -12,7 +12,7 @@
 }
 
 .form-control {
-    padding-right: 40px; /* Adjust to make space for the icon */
+    padding-right: 40px; 
     z-index: 1;
     background-color: transparent;
 }

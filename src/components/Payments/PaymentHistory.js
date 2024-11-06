@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import api from '../../utils/api';
+import axios from '../../config/axios';
 import { notifyError } from '../../utils/notifications';
 
 const PaymentHistory = () => {
@@ -9,7 +9,10 @@ const PaymentHistory = () => {
     useEffect(() => {
         const fetchPayments = async () => {
             try {
-                const response = await api.get('/payment/getallpayments');
+                const token = localStorage.getItem('token');
+                const response = await axios.get('/payment/getallpayments',{
+                    headers: { Authorization: `Bearer ${token}` }
+                });
                 setPayments(response.data);
             } catch (error) {
                 notifyError('Failed to fetch payment history');
@@ -25,9 +28,11 @@ const PaymentHistory = () => {
                 {payments.map(payment => (
                     <li key={payment._id} className="list-group-item">
                         <p><strong>Amount:</strong> {payment.amount}</p>
-                        <p><strong>Description:</strong> {payment.description}</p>
+                        <p><strong>Description:</strong> {payment.description || 'No description available'}</p>
                         <p><strong>Date:</strong> {new Date(payment.date).toLocaleDateString()}</p>
-                        <p><strong>Client:</strong> {payment.client.name}</p>
+                        <p><strong>Client:</strong> {payment.client ? payment.client.name : 'Unknown Client'}</p>
+                        <p><strong>Project:</strong> {payment.project?.name || "No project assigned"}</p>
+
                     </li>
                 ))}
             </ul>
@@ -36,3 +41,4 @@ const PaymentHistory = () => {
 };
 
 export default PaymentHistory;
+

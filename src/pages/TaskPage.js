@@ -1,22 +1,23 @@
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import CreateTask from '../components/Tasks/CreateTask';
 import React from 'react';
-import TaskDetail from '../components/Tasks/TaskDetail';
+import TaskDetail from '../components/Tasks/TaskDetails';
 import TaskList from '../components/Tasks/TaskList';
 
 const TaskPage = () => {
-    const { path } = useRouteMatch();
+    
 
     return (
         <div className="container mt-4">
-            <Switch>
-                <Route exact path={path} component={TaskList} />
-                <Route path={`${path}/create`} component={CreateTask} />
-                <Route path={`${path}/:id`} component={TaskDetail} />
-            </Switch>
+            <Routes>
+                <Route  path="/" element={<TaskList/>} />
+                <Route path= "create" element={<CreateTask/>} />
+                <Route path=":id" element={<TaskDetail/>} />
+            </Routes>
         </div>
     );
 };
 
 export default TaskPage;
+
